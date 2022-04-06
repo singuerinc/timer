@@ -98,12 +98,12 @@ function App() {
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
       <div
-        className="flex text-8xl font-semibold tabular-nums sm:text-[12rem]"
+        className="flex text-8xl font-bold tabular-nums sm:text-[12rem]"
         onClick={forward}
       >
         {format(accumulated, "mm:ss")}
       </div>
-      <div className="absolute bottom-6 flex text-2xl opacity-50">
+      <div className="absolute bottom-0 left-0 flex text-2xl opacity-50">
         <button className="p-6 font-light" onClick={add5}>
           +5
         </button>
