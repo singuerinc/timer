@@ -1,3 +1,4 @@
+import { IconMaximize } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
 import { addMilliseconds, addMinutes, format } from "date-fns";
 import * as React from "react";
@@ -94,17 +95,32 @@ function App() {
   const forward = useCallback(() => send("FORWARD"), [send]);
   const add5 = useCallback(() => send("ADD_5"), [send]);
 
+  const toggleFullScreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }, []);
+
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
       <div
-        className="flex text-9xl font-semibold tabular-nums"
+        className="flex text-8xl font-semibold tabular-nums sm:text-[12rem]"
         onClick={forward}
       >
         {format(accumulated, "mm:ss")}
       </div>
-      <div className="absolute bottom-12 flex text-2xl opacity-50">
+      <div className="absolute bottom-6 flex text-2xl opacity-50">
         <button className="p-6 font-light" onClick={add5}>
           +5
+        </button>
+      </div>
+      <div className="absolute right-0 top-0 flex text-2xl opacity-50">
+        <button className="p-6" onClick={toggleFullScreen}>
+          <IconMaximize />
         </button>
       </div>
     </div>
