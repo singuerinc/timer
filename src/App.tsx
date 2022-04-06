@@ -20,9 +20,9 @@ export const timerMachine = createMachine<Context>(
     initial: "idle",
     context: {
       totalTime: MIN_0,
-      startAt: new Date(),
-      endAt: new Date(),
-      accumulated: new Date(),
+      startAt: new Date(0),
+      endAt: new Date(0),
+      accumulated: new Date(0),
     },
     on: {
       ADD_5: {
@@ -83,13 +83,15 @@ export const timerMachine = createMachine<Context>(
         endAt: (_) => new Date(0),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         accumulated: (_) => new Date(0),
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        totalTime: (_) => 0,
       }),
       reset: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         startAt: (_) => new Date(),
         endAt: (ctx) => addMilliseconds(new Date(), ctx.totalTime),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // accumulated: (_) => new Date(),
+        // accumulated: (ctx) => new Date(ctx.totalTime),
       }),
       update: assign({
         accumulated: (ctx) => {
