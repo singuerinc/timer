@@ -95,16 +95,6 @@ function App() {
   const forward = useCallback(() => send("FORWARD"), [send]);
   const add5 = useCallback(() => send("ADD_5"), [send]);
 
-  const toggleFullScreen = useCallback(() => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  }, []);
-
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
       <div
@@ -116,11 +106,6 @@ function App() {
       <div className="absolute bottom-6 flex text-2xl opacity-50">
         <button className="p-6 font-light" onClick={add5}>
           +5
-        </button>
-      </div>
-      <div className="absolute right-0 top-0 flex text-2xl opacity-50">
-        <button className="p-6" onClick={toggleFullScreen}>
-          <IconMaximize />
         </button>
       </div>
     </div>
