@@ -1,12 +1,12 @@
 import { useMachine, useSelector } from "@xstate/react";
-import { addMilliseconds, addMinutes, differenceInMilliseconds, format } from "date-fns";
+import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
 import * as React from "react";
 import { useCallback } from "react";
 import { assign, createMachine, State } from "xstate";
 
 const MIN_0 = 0;
 const MIN_5 = 5 * 60 * 1000;
-const MIN_25 = 25 * 60 * 1000;
+const AN_HOUR = 60 * 60 * 1000;
 
 type Context = {
   totalTime: number;
@@ -15,7 +15,14 @@ type Context = {
   accumulated: Date;
 };
 
-export const timerMachine = createMachine<Context>(
+type AddEvent = {
+  type: "ADD";
+  amount: number;
+};
+
+type Events = AddEvent & { type: "FORWARD" } & { type: "TICK" };
+
+export const timerMachine = createMachine<Context, any, Events>(
   {
     initial: "idle",
     context: {
@@ -25,12 +32,12 @@ export const timerMachine = createMachine<Context>(
       accumulated: new Date(0),
     },
     on: {
-      ADD_5: {
-        actions: ["add5"],
-      },
-      ADD_25: {
-        actions: ["add25"],
-      },
+      ADD: [
+        {
+          cond: "totalIsLessThanAnHour",
+          actions: ["add"],
+        },
+      ],
     },
     states: {
       idle: {
@@ -38,7 +45,7 @@ export const timerMachine = createMachine<Context>(
         on: {
           FORWARD: [
             {
-              cond: (ctx: Context) => ctx.totalTime > 0,
+              cond: "totalIsMoreThanZero",
               target: "running",
             },
           ],
@@ -53,7 +60,7 @@ export const timerMachine = createMachine<Context>(
           FORWARD: "idle",
           TICK: [
             {
-              cond: (ctx: Context) => ctx.accumulated.getTime() > 0,
+              cond: "accumulatedIsMoreThanZero",
               actions: ["update"],
             },
             {
@@ -65,16 +72,16 @@ export const timerMachine = createMachine<Context>(
     },
   },
   {
+    guards: {
+      totalIsLessThanAnHour: (ctx, event) => ctx.totalTime + event.amount < AN_HOUR,
+      totalIsMoreThanZero: (ctx) => ctx.totalTime > 0,
+      accumulatedIsMoreThanZero: (ctx) => ctx.accumulated.getTime() > 0,
+    },
     actions: {
-      add5: assign({
-        totalTime: (ctx) => ctx.totalTime + MIN_5,
-        accumulated: (ctx) => addMilliseconds(ctx.accumulated, MIN_5),
-        endAt: (ctx) => addMilliseconds(ctx.endAt, MIN_5),
-      }),
-      add25: assign({
-        totalTime: (ctx) => ctx.totalTime + MIN_25,
-        accumulated: (ctx) => addMilliseconds(ctx.accumulated, MIN_25),
-        endAt: (ctx) => addMilliseconds(ctx.endAt, MIN_25),
+      add: assign({
+        totalTime: (ctx, event) => ctx.totalTime + event.amount,
+        accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, event.amount),
+        endAt: (ctx, event) => addMilliseconds(ctx.endAt, event.amount),
       }),
       zero: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -117,7 +124,7 @@ function App() {
   const [, send, service] = useMachine(timerMachine);
   const accumulated = useSelector(service, (state: State<Context>) => state.context.accumulated);
   const forward = useCallback(() => send("FORWARD"), [send]);
-  const add5 = useCallback(() => send("ADD_5"), [send]);
+  const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
 
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
