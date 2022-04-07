@@ -1,4 +1,4 @@
-import { IconPlus, IconRotateClockwise2 } from "@tabler/icons";
+import { IconPlus } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
 import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
 import * as React from "react";
@@ -22,9 +22,9 @@ type AddEvent = {
   amount: number;
 };
 
-type Events = AddEvent & { type: "FORWARD" } & { type: "TICK" };
+type Events = AddEvent | { type: "FORWARD" } | { type: "TICK" } | { type: "RESET" };
 
-export const timerMachine = createMachine<Context, any, Events>(
+export const timerMachine = createMachine<Context, Events>(
   {
     initial: "idle",
     context: {
@@ -79,7 +79,7 @@ export const timerMachine = createMachine<Context, any, Events>(
   },
   {
     guards: {
-      totalIsLessThanAnHour: (ctx, event) => ctx.totalTime + event.amount < AN_HOUR,
+      totalIsLessThanAnHour: (ctx, event) => ctx.totalTime + (event as AddEvent).amount < AN_HOUR,
       totalIsMoreThanZero: (ctx) => ctx.totalTime > 0,
       accumulatedIsMoreThanZero: (ctx) => ctx.accumulated.getTime() > 999,
     },
@@ -90,9 +90,9 @@ export const timerMachine = createMachine<Context, any, Events>(
         tone.play();
       },
       add: assign({
-        totalTime: (ctx, event) => ctx.totalTime + event.amount,
-        accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, event.amount),
-        endAt: (ctx, event) => addMilliseconds(ctx.endAt, event.amount),
+        totalTime: (ctx, event) => ctx.totalTime + (event as AddEvent).amount,
+        accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, (event as AddEvent).amount),
+        endAt: (ctx, event) => addMilliseconds(ctx.endAt, (event as AddEvent).amount),
       }),
       zero: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
