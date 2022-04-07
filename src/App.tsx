@@ -1,3 +1,4 @@
+import { IconPlus, IconRotateClockwise2 } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
 import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
 import * as React from "react";
@@ -33,6 +34,9 @@ export const timerMachine = createMachine<Context, any, Events>(
       accumulated: new Date(0),
     },
     on: {
+      RESET: {
+        target: "idle",
+      },
       ADD: [
         {
           cond: "totalIsLessThanAnHour",
@@ -132,16 +136,27 @@ function App() {
   const accumulated = useSelector(service, (state: State<Context>) => state.context.accumulated);
   const forward = useCallback(() => send("FORWARD"), [send]);
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
+  // const reset = useCallback(() => send({ type: "RESET" }), [send]);
 
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
-      <div className="flex flex-col tabular-nums" onClick={forward}>
+      <div
+        className="flex flex-col tabular-nums text-black transition-all active:scale-95"
+        onClick={forward}
+      >
         <div className="text-8xl font-bold sm:text-[12rem]">{format(accumulated, "mm:ss")}</div>
       </div>
-      <div className="absolute bottom-0 left-0 flex text-2xl opacity-50">
-        <button className="p-6 font-light" onClick={add5}>
-          +5
+      <div className="absolute bottom-0 left-0 flex w-full justify-between text-2xl opacity-50">
+        <button
+          title="Add 5"
+          className="p-6 font-light transition-all active:scale-95"
+          onClick={add5}
+        >
+          <IconPlus />
         </button>
+        {/* <button title="Add 5" className="p-6 font-light" onClick={reset}>
+          <IconRotateClockwise2 />
+        </button> */}
       </div>
     </div>
   );
