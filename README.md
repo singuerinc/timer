@@ -1,6 +1,6 @@
 # Timer
 
-The most minimalist timer ever existed.
+The most minimalist opinionated timer ever existed.
 
 ## How to use it
 
@@ -16,3 +16,11 @@ The most minimalist timer ever existed.
 2. Click on the tree dots (up-right)
 3. More tools > Create shortcut... > Open as window > Create
 4. Open Timer
+
+## Buy me a coffee
+
+Would you like to support this and other projects I do?, consider buy me a coffee! Thanks!
+
+![Buy me a coffee](bmc-button.svg)
+
+[https://www.buymeacoffee.com/singuerinc](https://www.buymeacoffee.com/singuerinc)
