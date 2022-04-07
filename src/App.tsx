@@ -6,7 +6,7 @@ import { assign, createMachine, State } from "xstate";
 import Tone from "./static_tone.mp3";
 
 const MIN_0 = 0;
-const MIN_5 = 2000; //5 * 60 * 1000;
+const MIN_5 = 5 * 60 * 1000;
 const AN_HOUR = 60 * 60 * 1000;
 
 type Context = {
