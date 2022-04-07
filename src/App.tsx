@@ -22,7 +22,7 @@ type AddEvent = {
   amount: number;
 };
 
-type Events = AddEvent | { type: "FORWARD" } | { type: "TICK" } | { type: "RESET" };
+type Events = AddEvent | { type: "FORWARD" } | { type: "TICK" };
 
 export const timerMachine = createMachine<Context, Events>(
   {
@@ -34,9 +34,6 @@ export const timerMachine = createMachine<Context, Events>(
       accumulated: new Date(0),
     },
     on: {
-      RESET: {
-        target: "idle",
-      },
       ADD: [
         {
           cond: "totalIsLessThanAnHour",
@@ -107,7 +104,7 @@ export const timerMachine = createMachine<Context, Events>(
       reset: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         startAt: (_) => new Date(),
-        endAt: (ctx) => addMilliseconds(new Date(), ctx.totalTime + 1000),
+        endAt: (ctx) => addMilliseconds(new Date(), ctx.totalTime + 500),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         // accumulated: (ctx) => new Date(ctx.totalTime),
       }),
@@ -138,7 +135,6 @@ function App() {
   const accumulated = useSelector(service, (state: State<Context>) => state.context.accumulated);
   const forward = useCallback(() => send("FORWARD"), [send]);
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
-  // const reset = useCallback(() => send({ type: "RESET" }), [send]);
 
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
@@ -146,20 +142,17 @@ function App() {
         className="flex flex-col tabular-nums text-black transition-all active:scale-95"
         onClick={forward}
       >
-        <div className="text-8xl font-bold sm:text-[12rem]">{format(accumulated, "mm:ss")}</div>
+        <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
       </div>
-      <div className="absolute bottom-0 left-0 flex w-full justify-between text-2xl opacity-50">
+      <div className="absolute bottom-0 left-0 flex w-full justify-end text-2xl opacity-50">
         <button
           type="button"
           title="Add 5"
-          className="p-6 font-light transition-all active:scale-95"
+          className="mr-4 mb-4 rounded-full p-4 font-light transition-all hover:bg-gray-200 active:scale-90"
           onClick={add5}
         >
           <IconPlus />
         </button>
-        {/* <button title="Add 5" className="p-6 font-light" onClick={reset}>
-          <IconRotateClockwise2 />
-        </button> */}
       </div>
     </div>
   );
