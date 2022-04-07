@@ -3,9 +3,10 @@ import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
 import * as React from "react";
 import { useCallback } from "react";
 import { assign, createMachine, State } from "xstate";
+import Tone from "./static_tone.mp3";
 
 const MIN_0 = 0;
-const MIN_5 = 5 * 60 * 1000;
+const MIN_5 = 2000; //5 * 60 * 1000;
 const AN_HOUR = 60 * 60 * 1000;
 
 type Context = {
@@ -64,6 +65,7 @@ export const timerMachine = createMachine<Context, any, Events>(
               actions: ["update"],
             },
             {
+              actions: ["playTone"],
               target: "idle",
             },
           ],
@@ -75,9 +77,14 @@ export const timerMachine = createMachine<Context, any, Events>(
     guards: {
       totalIsLessThanAnHour: (ctx, event) => ctx.totalTime + event.amount < AN_HOUR,
       totalIsMoreThanZero: (ctx) => ctx.totalTime > 0,
-      accumulatedIsMoreThanZero: (ctx) => ctx.accumulated.getTime() > 0,
+      accumulatedIsMoreThanZero: (ctx) => ctx.accumulated.getTime() > 999,
     },
     actions: {
+      playTone: () => {
+        const tone = new Audio();
+        tone.src = Tone;
+        tone.play();
+      },
       add: assign({
         totalTime: (ctx, event) => ctx.totalTime + event.amount,
         accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, event.amount),
