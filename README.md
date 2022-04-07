@@ -1,5 +1,7 @@
 # Timer
 
+The most minimalist timer ever existed.
+
 ## How to use it
 
 1. Add time +5...
