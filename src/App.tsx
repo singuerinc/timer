@@ -107,7 +107,7 @@ export const timerMachine = createMachine<Context, Events>(
       reset: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         startAt: (_) => new Date(),
-        endAt: (ctx) => addMilliseconds(new Date(), ctx.totalTime),
+        endAt: (ctx) => addMilliseconds(new Date(), ctx.totalTime + 1000),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         // accumulated: (ctx) => new Date(ctx.totalTime),
       }),
@@ -124,6 +124,8 @@ export const timerMachine = createMachine<Context, Events>(
         const id = setInterval(() => {
           callback("TICK");
         }, 500);
+
+        callback("TICK");
 
         return () => clearInterval(id);
       },
