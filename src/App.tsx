@@ -148,6 +148,7 @@ function App() {
       </div>
       <div className="absolute bottom-0 left-0 flex w-full justify-between text-2xl opacity-50">
         <button
+          type="button"
           title="Add 5"
           className="p-6 font-light transition-all active:scale-95"
           onClick={add5}
