@@ -39,7 +39,7 @@ function App() {
       >
         <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
       </div>
-      <div className="absolute bottom-0 left-0 flex w-full justify-center text-2xl opacity-50">
+      <div className="absolute bottom-0 left-0 flex w-full justify-end text-2xl opacity-50">
         <button
           type="button"
           title="Add 1"
