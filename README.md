@@ -12,11 +12,13 @@ The most minimalist opinionated timer ever existed.
 
 ## Keyboard shortcuts
 
-- <kbd>+</kbd> / <kbd>=</kbd> / <kbd>1</kbd> Add one minute
-- <kbd>-</kbd> / <kbd>_-_</kbd> Remove one minute
-- <kbd>5</kbd> Add five minute
-- <kbd>Enter</kbd> / <kbd>Space</kbd> Start the timer
-- <kbd>Esc</kbd> Stop the timer
+| Shortcut                                   | Action            |
+| ------------------------------------------ | ----------------- |
+| <kbd>+</kbd> / <kbd>=</kbd> / <kbd>1</kbd> | Add one minute    |
+| <kbd>-</kbd> / <kbd>_-_</kbd>              | Remove one minute |
+| <kbd>5</kbd>                               | Add five minute   |
+| <kbd>Enter</kbd> / <kbd>Space</kbd>        | Start the timer   |
+| <kbd>Esc</kbd>                             | Stop the timer    |
 
 ## As "standalone" Chrome app...
 
