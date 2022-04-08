@@ -1,4 +1,4 @@
-import { IconPlus } from "@tabler/icons";
+import { IconDice1, IconDice5 } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
 import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
 import * as React from "react";
@@ -7,6 +7,7 @@ import { assign, createMachine, State } from "xstate";
 import Tone from "./static_tone.mp3";
 
 const MIN_0 = 0;
+const MIN_1 = 60 * 1000;
 const MIN_5 = 5 * 60 * 1000;
 const AN_HOUR = 60 * 60 * 1000;
 
@@ -135,6 +136,7 @@ function App() {
   const accumulated = useSelector(service, (state: State<Context>) => state.context.accumulated);
   const forward = useCallback(() => send("FORWARD"), [send]);
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
+  const add1 = useCallback(() => send({ type: "ADD", amount: MIN_1 }), [send]);
 
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
@@ -149,9 +151,17 @@ function App() {
           type="button"
           title="Add 5"
           className="mr-4 mb-4 rounded-full p-4 font-light transition-all hover:bg-gray-200 active:scale-90"
+          onClick={add1}
+        >
+          <IconDice1 />
+        </button>
+        <button
+          type="button"
+          title="Add 5"
+          className="mr-4 mb-4 rounded-full p-4 font-light transition-all hover:bg-gray-200 active:scale-90"
           onClick={add5}
         >
-          <IconPlus />
+          <IconDice5 />
         </button>
       </div>
     </div>
