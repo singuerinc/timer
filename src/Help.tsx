@@ -76,17 +76,25 @@ export function Help() {
             </div>
             <div>Add five minutes</div>
           </div>
-          <div className="mt-12">
+          <div className="mt-12 flex flex-col gap-3">
             <a
-              className="text-gray-400 underline transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:hover:text-gray-600"
+              className="text-gray-400 transition-all hover:text-gray-600 hover:underline active:scale-90 dark:hover:text-gray-600"
               href="https://www.buymeacoffee.com/singuerinc"
               target="_blank"
               rel="noreferrer"
               title="Buy me a coffee"
             >
-              Buy me a coffee
-            </a>{" "}
-            is you find Timer useful, thanks!
+              Buy me a coffee is you find Timer useful, thanks!
+            </a>
+            <a
+              className="text-gray-400 transition-all hover:text-gray-600 hover:underline active:scale-90 dark:hover:text-gray-600"
+              href="https://github.com/singuerinc/timer"
+              target="_blank"
+              rel="noreferrer"
+              title="Source"
+            >
+              Source
+            </a>
           </div>
         </div>
       </div>
