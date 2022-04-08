@@ -1,10 +1,9 @@
-import { IconDice1, IconDice5 } from "@tabler/icons";
+import { IconDice1, IconDice5, IconLifebuoy } from "@tabler/icons";
 import { format } from "date-fns";
 import MouseTrap from "mousetrap";
 import * as React from "react";
 import { useCallback, useEffect, useRef } from "react";
 import { useTheme } from "./useTheme";
-
 import { useTimer } from "./useTimer";
 
 function App() {
@@ -39,23 +38,34 @@ function App() {
       >
         <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
       </div>
-      <div className="absolute bottom-0 left-0 flex w-full justify-end text-2xl opacity-50">
-        <button
-          type="button"
-          title="Add 1"
-          className="mr-4 mb-4 rounded-full p-4 font-light text-gray-500 transition-all hover:bg-black/10 active:scale-90 dark:text-gray-600 dark:hover:bg-white/10"
-          onClick={add1}
-        >
-          <IconDice1 />
-        </button>
-        <button
-          type="button"
-          title="Add 5"
-          className="mr-4 mb-4 rounded-full p-4 font-light text-gray-500 transition-all hover:bg-black/10 active:scale-90 dark:text-gray-600 dark:hover:bg-white/10"
-          onClick={add5}
-        >
-          <IconDice5 />
-        </button>
+      <div className="absolute bottom-0 right-0 text-2xl">
+        <div className="flex w-full">
+          <button
+            type="button"
+            title="Add 1"
+            className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+            onClick={add1}
+          >
+            <IconDice1 />
+          </button>
+          <button
+            type="button"
+            title="Add 5"
+            className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+            onClick={add5}
+          >
+            <IconDice5 />
+          </button>
+          <a
+            className="mr-4 mb-4 rounded-full p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+            href="https://www.buymeacoffee.com/singuerinc"
+            target="_blank"
+            rel="noreferrer"
+            title="Buy me a coffee"
+          >
+            <IconLifebuoy />
+          </a>
+        </div>
       </div>
     </div>
   );
