@@ -45,13 +45,13 @@ export const timerMachine = createMachine<Context, Events>(
       ADD: [
         {
           cond: "totalIsLessThanAnHour",
-          actions: ["add"],
+          actions: ["add", "updateEndAt"],
         },
       ],
       REMOVE: [
         {
           cond: "afterRemovalTotalIsMoreThanZero",
-          actions: ["remove"],
+          actions: ["remove", "updateEndAt"],
         },
       ],
     },
