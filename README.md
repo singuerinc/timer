@@ -10,6 +10,14 @@ The most minimalist opinionated timer ever existed.
 
 ![Timer](./timer.png)
 
+## Keyboard shortcuts
+
+<kbd>+</kbd> / <kbd>=</kbd> / <kbd>1</kbd> Add one minute
+<kbd>-</kbd> / <kbd>_-_</kbd> Remove one minute
+<kbd>5</kbd> Add five minute
+<kbd>Enter</kbd> / <kbd>Space</kbd> Start the timer
+<kbd>Esc</kbd> Stop the timer
+
 ## As "standalone" Chrome app...
 
 1. Open [https://timer.singuerinc.com/](https://timer.singuerinc.com/) in Chrome
