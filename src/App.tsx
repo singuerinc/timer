@@ -1,9 +1,10 @@
-import { IconDice1, IconDice5 } from "@tabler/icons";
+import { IconBrightness, IconDice1, IconDice5 } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
 import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
 import MouseTrap from "mousetrap";
 import * as React from "react";
 import { useCallback, useEffect, useRef } from "react";
+import { useDarkMode } from "usehooks-ts";
 import { assign, createMachine, State } from "xstate";
 import Tone from "./static_tone.mp3";
 
@@ -159,6 +160,7 @@ function App() {
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
   const add1 = useCallback(() => send({ type: "ADD", amount: MIN_1 }), [send]);
   const remove1 = useCallback(() => send({ type: "REMOVE", amount: MIN_1 }), [send]);
+  const { isDarkMode } = useDarkMode();
   const stopIntentRef = useRef<number>();
   const startIntent = useCallback(() => {
     stopIntentRef.current = setTimeout(() => {
@@ -178,11 +180,15 @@ function App() {
     MouseTrap.bind(["-", "_"], () => remove1());
   }, [add1, add5, remove1, start, stop]);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
+
   return (
     <div className="flex h-full w-full select-none flex-col items-center justify-center">
       {isRunning ? (
         <div
-          className="flex flex-col tabular-nums text-black transition-all active:scale-95"
+          className="flex cursor-pointer flex-col tabular-nums transition-all active:scale-95"
           onPointerDown={startIntent}
           onPointerUp={stopIntent}
         >
@@ -190,17 +196,17 @@ function App() {
         </div>
       ) : (
         <div
-          className="flex flex-col tabular-nums text-black transition-all active:scale-95"
+          className="flex cursor-pointer flex-col tabular-nums transition-all active:scale-95"
           onClick={start}
         >
           <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
         </div>
       )}
-      <div className="absolute bottom-0 left-0 flex w-full justify-end text-2xl opacity-50">
+      <div className="absolute bottom-0 left-0 flex w-full justify-center text-2xl opacity-50">
         <button
           type="button"
-          title="Add 5"
-          className="mr-4 mb-4 rounded-full p-4 font-light transition-all hover:bg-gray-200 active:scale-90"
+          title="Add 1"
+          className="mr-4 mb-4 rounded-full p-4 font-light text-gray-500 transition-all hover:bg-black/10 active:scale-90 dark:text-gray-600 dark:hover:bg-white/10"
           onClick={add1}
         >
           <IconDice1 />
@@ -208,7 +214,7 @@ function App() {
         <button
           type="button"
           title="Add 5"
-          className="mr-4 mb-4 rounded-full p-4 font-light transition-all hover:bg-gray-200 active:scale-90"
+          className="mr-4 mb-4 rounded-full p-4 font-light text-gray-500 transition-all hover:bg-black/10 active:scale-90 dark:text-gray-600 dark:hover:bg-white/10"
           onClick={add5}
         >
           <IconDice5 />
