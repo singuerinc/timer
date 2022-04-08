@@ -179,12 +179,12 @@ function App() {
   }, [add1, add5, remove1, start, stop]);
 
   return (
-    <div className="flex w-full select-none flex-col items-center justify-center">
+    <div className="flex h-full w-full select-none flex-col items-center justify-center">
       {isRunning ? (
         <div
           className="flex flex-col tabular-nums text-black transition-all active:scale-95"
-          onMouseDown={startIntent}
-          onMouseUp={stopIntent}
+          onPointerDown={startIntent}
+          onPointerUp={stopIntent}
         >
           <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
         </div>
