@@ -31,6 +31,4 @@ The most minimalist opinionated timer ever existed.
 
 Would you like to support this and other projects I do?, consider buy me a coffee! Thanks!
 
-![Buy me a coffee](bmc-button.svg)
-
-[https://www.buymeacoffee.com/singuerinc](https://www.buymeacoffee.com/singuerinc)
+<a title="Buy me a coffee" href="https://www.buymeacoffee.com/singuerinc" target="_blank">![Buy me a coffee](bmc-button.svg)</a>
