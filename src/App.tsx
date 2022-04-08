@@ -1,8 +1,9 @@
 import { IconDice1, IconDice5 } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
 import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
+import MouseTrap from "mousetrap";
 import * as React from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { assign, createMachine, State } from "xstate";
 import Tone from "./static_tone.mp3";
 
@@ -23,7 +24,12 @@ type AddEvent = {
   amount: number;
 };
 
-type Events = AddEvent | { type: "START" } | { type: "STOP" } | { type: "TICK" };
+type RemoveEvent = {
+  type: "REMOVE";
+  amount: number;
+};
+
+type Events = AddEvent | RemoveEvent | { type: "START" } | { type: "STOP" } | { type: "TICK" };
 
 export const timerMachine = createMachine<Context, Events>(
   {
@@ -39,6 +45,12 @@ export const timerMachine = createMachine<Context, Events>(
         {
           cond: "totalIsLessThanAnHour",
           actions: ["add"],
+        },
+      ],
+      REMOVE: [
+        {
+          cond: "afterRemovalTotalIsMoreThanZero",
+          actions: ["remove"],
         },
       ],
     },
@@ -78,6 +90,8 @@ export const timerMachine = createMachine<Context, Events>(
   {
     guards: {
       totalIsLessThanAnHour: (ctx, event) => ctx.totalTime + (event as AddEvent).amount < AN_HOUR,
+      afterRemovalTotalIsMoreThanZero: (ctx, event) =>
+        ctx.totalTime - (event as RemoveEvent).amount > 0,
       totalIsMoreThanZero: (ctx) => ctx.totalTime > 0,
       accumulatedIsMoreThanZero: (ctx) => ctx.accumulated.getTime() > 999,
     },
@@ -91,6 +105,11 @@ export const timerMachine = createMachine<Context, Events>(
         totalTime: (ctx, event) => ctx.totalTime + (event as AddEvent).amount,
         accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, (event as AddEvent).amount),
         endAt: (ctx, event) => addMilliseconds(ctx.endAt, (event as AddEvent).amount),
+      }),
+      remove: assign({
+        totalTime: (ctx, event) => ctx.totalTime - (event as AddEvent).amount,
+        accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, -(event as AddEvent).amount),
+        endAt: (ctx, event) => addMilliseconds(ctx.endAt, -(event as AddEvent).amount),
       }),
       zero: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -139,6 +158,7 @@ function App() {
   const stop = useCallback(() => send("STOP"), [send]);
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
   const add1 = useCallback(() => send({ type: "ADD", amount: MIN_1 }), [send]);
+  const remove1 = useCallback(() => send({ type: "REMOVE", amount: MIN_1 }), [send]);
   const stopIntentRef = useRef<number>();
   const startIntent = useCallback(() => {
     stopIntentRef.current = setTimeout(() => {
@@ -149,6 +169,14 @@ function App() {
   const stopIntent = useCallback(() => {
     clearTimeout(stopIntentRef.current);
   }, []);
+
+  useEffect(() => {
+    MouseTrap.bind(["esc"], () => stop());
+    MouseTrap.bind(["space", "enter"], () => start());
+    MouseTrap.bind(["1", "+", "="], () => add1());
+    MouseTrap.bind(["5"], () => add5());
+    MouseTrap.bind(["-", "_"], () => remove1());
+  }, [add1, add5, remove1, start, stop]);
 
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">

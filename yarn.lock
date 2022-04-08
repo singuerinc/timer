@@ -349,6 +349,11 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/mousetrap@^1.6.9":
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/@types/mousetrap/-/mousetrap-1.6.9.tgz#f1ef9adbd1eac3466f21b6988b1c82c633a45340"
+  integrity sha512-HUAiN65VsRXyFCTicolwb5+I7FM6f72zjMWr+ajGk+YTvzBgXqa2A5U7d+rtsouAkunJ5U4Sb5lNJjo9w+nmXg==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -1786,6 +1791,11 @@ minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
+
+mousetrap@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
+  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 ms@2.0.0:
   version "2.0.0"
