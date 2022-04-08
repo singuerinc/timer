@@ -2,7 +2,7 @@ import { IconDice1, IconDice5 } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
 import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
 import * as React from "react";
-import { useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import { assign, createMachine, State } from "xstate";
 import Tone from "./static_tone.mp3";
 
@@ -23,7 +23,7 @@ type AddEvent = {
   amount: number;
 };
 
-type Events = AddEvent | { type: "FORWARD" } | { type: "TICK" };
+type Events = AddEvent | { type: "START" } | { type: "STOP" } | { type: "TICK" };
 
 export const timerMachine = createMachine<Context, Events>(
   {
@@ -46,7 +46,7 @@ export const timerMachine = createMachine<Context, Events>(
       idle: {
         entry: ["zero"],
         on: {
-          FORWARD: [
+          START: [
             {
               cond: "totalIsMoreThanZero",
               target: "running",
@@ -60,7 +60,7 @@ export const timerMachine = createMachine<Context, Events>(
           src: "tick",
         },
         on: {
-          FORWARD: "idle",
+          STOP: "idle",
           TICK: [
             {
               cond: "accumulatedIsMoreThanZero",
@@ -134,18 +134,40 @@ export const timerMachine = createMachine<Context, Events>(
 function App() {
   const [, send, service] = useMachine(timerMachine);
   const accumulated = useSelector(service, (state: State<Context>) => state.context.accumulated);
-  const forward = useCallback(() => send("FORWARD"), [send]);
+  const isRunning = useSelector(service, (state: State<Context>) => state.matches("running"));
+  const start = useCallback(() => send("START"), [send]);
+  const stop = useCallback(() => send("STOP"), [send]);
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
   const add1 = useCallback(() => send({ type: "ADD", amount: MIN_1 }), [send]);
+  const stopIntentRef = useRef<number>();
+  const startIntent = useCallback(() => {
+    stopIntentRef.current = setTimeout(() => {
+      stop();
+    }, 1000);
+  }, [stop]);
+
+  const stopIntent = useCallback(() => {
+    clearTimeout(stopIntentRef.current);
+  }, []);
 
   return (
     <div className="flex w-full select-none flex-col items-center justify-center">
-      <div
-        className="flex flex-col tabular-nums text-black transition-all active:scale-95"
-        onClick={forward}
-      >
-        <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
-      </div>
+      {isRunning ? (
+        <div
+          className="flex flex-col tabular-nums text-black transition-all active:scale-95"
+          onMouseDown={startIntent}
+          onMouseUp={stopIntent}
+        >
+          <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
+        </div>
+      ) : (
+        <div
+          className="flex flex-col tabular-nums text-black transition-all active:scale-95"
+          onClick={start}
+        >
+          <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
+        </div>
+      )}
       <div className="absolute bottom-0 left-0 flex w-full justify-end text-2xl opacity-50">
         <button
           type="button"

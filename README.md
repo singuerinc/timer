@@ -4,9 +4,9 @@ The most minimalist opinionated timer ever existed.
 
 ## How to use it
 
-1. Add time +5...
+1. Add time +1 or +5...
 2. Start: click on time
-3. Restart: click on time
+3. Stop+Restart: press and hold for 1 sec
 
 ![Timer](./timer.png)
 
