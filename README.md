@@ -6,7 +6,7 @@ The most minimalist opinionated timer ever existed.
 
 1. Add time +1 or +5...
 2. Start: click on time
-3. Stop/Restart: press and hold for 1 sec
+3. Stop: press and hold for 1 sec
 
 ![Timer](./timer.png)
 
@@ -16,7 +16,7 @@ The most minimalist opinionated timer ever existed.
 | ------------------------------------------ | ----------------- |
 | <kbd>+</kbd> / <kbd>=</kbd> / <kbd>1</kbd> | Add one minute    |
 | <kbd>-</kbd> / <kbd>\_</kbd>               | Remove one minute |
-| <kbd>5</kbd>                               | Add five minute   |
+| <kbd>5</kbd>                               | Add five minutes  |
 | <kbd>Enter</kbd> / <kbd>Space</kbd>        | Start the timer   |
 | <kbd>Esc</kbd>                             | Stop the timer    |
 
