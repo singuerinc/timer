@@ -18,7 +18,7 @@ The most minimalist opinionated timer ever existed.
 | <kbd>-</kbd> / <kbd>\_</kbd>               | Remove one minute |
 | <kbd>5</kbd>                               | Add five minutes  |
 | <kbd>Enter</kbd> / <kbd>Space</kbd>        | Start the timer   |
-| <kbd>Esc</kbd>                             | Stop the timer    |
+| <kbd>Esc</kbd> / <kbd>0</kbd>              | Stop the timer    |
 
 ## As "standalone" Chrome app...
 

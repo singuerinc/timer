@@ -1,10 +1,6 @@
-import { IconDice1, IconDice5 } from "@tabler/icons";
 import { useMachine, useSelector } from "@xstate/react";
-import { addMilliseconds, differenceInMilliseconds, format } from "date-fns";
-import MouseTrap from "mousetrap";
-import * as React from "react";
-import { useCallback, useEffect, useRef } from "react";
-import { useDarkMode } from "usehooks-ts";
+import { addMilliseconds, differenceInMilliseconds, setMilliseconds } from "date-fns";
+import { useCallback } from "react";
 import { assign, createMachine, State } from "xstate";
 import Tone from "./static_tone.mp3";
 
@@ -15,7 +11,6 @@ const AN_HOUR = 60 * 60 * 1000;
 
 type Context = {
   totalTime: number;
-  startAt: Date;
   endAt: Date;
   accumulated: Date;
 };
@@ -30,14 +25,19 @@ type RemoveEvent = {
   amount: number;
 };
 
-type Events = AddEvent | RemoveEvent | { type: "START" } | { type: "STOP" } | { type: "TICK" };
+type Events =
+  | AddEvent
+  | RemoveEvent
+  | { type: "START" }
+  | { type: "PAUSE" }
+  | { type: "STOP" }
+  | { type: "TICK" };
 
 export const timerMachine = createMachine<Context, Events>(
   {
     initial: "idle",
     context: {
       totalTime: MIN_0,
-      startAt: new Date(0),
       endAt: new Date(0),
       accumulated: new Date(0),
     },
@@ -70,12 +70,24 @@ export const timerMachine = createMachine<Context, Events>(
           ],
         },
       },
+      pause: {
+        on: {
+          STOP: "idle",
+          START: [
+            {
+              cond: "totalIsMoreThanZero",
+              target: "running",
+            },
+          ],
+        },
+      },
       running: {
-        entry: ["reset", "update"],
+        entry: ["updateEndAt", "update"],
         invoke: {
           src: "tick",
         },
         on: {
+          PAUSE: "pause",
           STOP: "idle",
           TICK: [
             {
@@ -108,29 +120,24 @@ export const timerMachine = createMachine<Context, Events>(
       add: assign({
         totalTime: (ctx, event) => ctx.totalTime + (event as AddEvent).amount,
         accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, (event as AddEvent).amount),
-        endAt: (ctx, event) => addMilliseconds(ctx.endAt, (event as AddEvent).amount),
       }),
       remove: assign({
         totalTime: (ctx, event) => ctx.totalTime - (event as AddEvent).amount,
         accumulated: (ctx, event) => addMilliseconds(ctx.accumulated, -(event as AddEvent).amount),
-        endAt: (ctx, event) => addMilliseconds(ctx.endAt, -(event as AddEvent).amount),
       }),
       zero: assign({
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        startAt: (_) => new Date(0),
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        endAt: (_) => new Date(0),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         accumulated: (_) => new Date(0),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         totalTime: (_) => 0,
       }),
-      reset: assign({
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        startAt: (_) => new Date(),
-        endAt: (ctx) => addMilliseconds(new Date(), ctx.totalTime + 500),
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // accumulated: (ctx) => new Date(ctx.totalTime),
+      updateEndAt: assign({
+        endAt: (ctx) => {
+          const now = setMilliseconds(new Date(), 0);
+          const acc = setMilliseconds(ctx.accumulated, 0);
+          const end = addMilliseconds(now, acc.getTime());
+          return setMilliseconds(end, 999);
+        },
       }),
       update: assign({
         accumulated: (ctx) => {
@@ -159,6 +166,7 @@ export function useTimer() {
   const accumulated = useSelector(service, (state: State<Context>) => state.context.accumulated);
   const isRunning = useSelector(service, (state: State<Context>) => state.matches("running"));
   const start = useCallback(() => send("START"), [send]);
+  const pause = useCallback(() => send("PAUSE"), [send]);
   const stop = useCallback(() => send("STOP"), [send]);
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
   const add1 = useCallback(() => send({ type: "ADD", amount: MIN_1 }), [send]);
@@ -168,6 +176,7 @@ export function useTimer() {
     accumulated,
     isRunning,
     start,
+    pause,
     stop,
     add5,
     add1,
