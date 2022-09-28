@@ -1,7 +1,6 @@
 import { IconDice1, IconDice5, IconHelp } from "@tabler/icons";
 import { format } from "date-fns";
-import * as React from "react";
-import { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useTheme } from "./useTheme";
 import { useTimer } from "./useTimer";
@@ -11,7 +10,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  const { accumulated, isRunning, start, pause, stop, add5, add1, remove1 } = useTimer();
+  const { accumulated, isRunning, start, pause, stop, add5, add1 } = useTimer();
   const stopIntentRef = useRef<number>();
 
   const startIntent = useCallback(() => {
@@ -21,20 +20,6 @@ function App() {
   const stopIntent = useCallback(() => {
     clearTimeout(stopIntentRef.current);
   }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // MouseTrap.bind(["esc", "0"], () => stop());
-      // MouseTrap.bind(["space", "enter"], () => start());
-      // MouseTrap.bind(["1", "+", "="], () => add1());
-      // MouseTrap.bind(["5"], () => add5());
-      // MouseTrap.bind(["-", "_"], () => remove1());
-    }
-
-    return () => {
-      // void MouseTrap.reset()
-    };
-  }, [add1, add5, remove1, start, stop]);
 
   return (
     <>
