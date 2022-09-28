@@ -4,6 +4,7 @@ import React, { useCallback, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { CommandMenu } from "./CommandMenu";
 import { useTheme } from "./useTheme";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useTimer } from "./useTimer";
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
   const navigate = useNavigate();
 
   const timer = useTimer();
-  const { accumulated, isRunning, start, pause, stop, add5, add1 } = timer;
+  const { accumulated, isRunning, start, pause, stop, add5, add1, remove1 } = timer;
   const stopIntentRef = useRef<number>();
 
   const startIntent = useCallback(() => {
@@ -22,6 +23,18 @@ function App() {
   const stopIntent = useCallback(() => {
     clearTimeout(stopIntentRef.current);
   }, []);
+
+  useHotkeys("esc", () => void stop());
+  useHotkeys("0", () => void stop());
+  useHotkeys("space", () => void start());
+  useHotkeys("enter", () => void start());
+  useHotkeys("1", () => void add1());
+  useHotkeys("+", () => void add1());
+  useHotkeys("=", () => void add1());
+  useHotkeys("5", () => void add5());
+  useHotkeys("-", () => void remove1());
+  useHotkeys("_", () => void remove1());
+  useHotkeys("h", () => void navigate("help"));
 
   return (
     <>
