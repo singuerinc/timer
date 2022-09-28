@@ -7,6 +7,7 @@ import Tone from "./static_tone.mp3";
 const MIN_0 = 0;
 const MIN_1 = 60 * 1000;
 const MIN_5 = 5 * 60 * 1000;
+const MIN_25 = 25 * 60 * 1000;
 const AN_HOUR = 60 * 60 * 1000;
 
 type Context = {
@@ -171,6 +172,11 @@ export function useTimer() {
   const add5 = useCallback(() => send({ type: "ADD", amount: MIN_5 }), [send]);
   const add1 = useCallback(() => send({ type: "ADD", amount: MIN_1 }), [send]);
   const remove1 = useCallback(() => send({ type: "REMOVE", amount: MIN_1 }), [send]);
+  const with25 = useCallback(() => {
+    send("STOP");
+    send({ type: "ADD", amount: MIN_25 });
+    send("START");
+  }, [send]);
 
   return {
     accumulated,
@@ -181,5 +187,6 @@ export function useTimer() {
     add5,
     add1,
     remove1,
+    with25,
   };
 }

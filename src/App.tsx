@@ -2,6 +2,7 @@ import { IconDice1, IconDice5, IconHelp } from "@tabler/icons";
 import { format } from "date-fns";
 import React, { useCallback, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { CommandMenu } from "./CommandMenu";
 import { useTheme } from "./useTheme";
 import { useTimer } from "./useTimer";
 
@@ -10,7 +11,8 @@ function App() {
 
   const navigate = useNavigate();
 
-  const { accumulated, isRunning, start, pause, stop, add5, add1 } = useTimer();
+  const timer = useTimer();
+  const { accumulated, isRunning, start, pause, stop, add5, add1 } = timer;
   const stopIntentRef = useRef<number>();
 
   const startIntent = useCallback(() => {
@@ -23,6 +25,7 @@ function App() {
 
   return (
     <>
+      <CommandMenu timer={timer} navigate={navigate} />
       <div className="flex h-full w-full select-none flex-col items-center justify-center">
         <div
           className="flex cursor-pointer flex-col tabular-nums transition-all active:scale-95"
