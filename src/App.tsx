@@ -1,8 +1,6 @@
 import { IconDice1, IconDice5, IconHelp } from "@tabler/icons";
 import { format } from "date-fns";
-import MouseTrap from "mousetrap";
-import * as React from "react";
-import { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useTheme } from "./useTheme";
 import { useTimer } from "./useTimer";
@@ -12,7 +10,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  const { accumulated, isRunning, start, pause, stop, add5, add1, remove1 } = useTimer();
+  const { accumulated, isRunning, start, pause, stop, add5, add1 } = useTimer();
   const stopIntentRef = useRef<number>();
 
   const startIntent = useCallback(() => {
@@ -22,14 +20,6 @@ function App() {
   const stopIntent = useCallback(() => {
     clearTimeout(stopIntentRef.current);
   }, []);
-
-  useEffect(() => {
-    MouseTrap.bind(["esc", "0"], () => stop());
-    MouseTrap.bind(["space", "enter"], () => start());
-    MouseTrap.bind(["1", "+", "="], () => add1());
-    MouseTrap.bind(["5"], () => add5());
-    MouseTrap.bind(["-", "_"], () => remove1());
-  }, [add1, add5, remove1, start, stop]);
 
   return (
     <>
@@ -62,7 +52,7 @@ function App() {
             </button>
             <button
               type="button"
-              title="Add 5"
+              title="Help"
               className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
               onClick={() => navigate("help")}
             >
