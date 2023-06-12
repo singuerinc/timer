@@ -24,6 +24,24 @@ function App() {
     clearTimeout(stopIntentRef.current);
   }, []);
 
+  const startWith5 = useCallback(() => {
+    stop();
+    add5();
+    start();
+  }, [add5, start, stop]);
+
+  const startWith10 = useCallback(() => {
+    stop();
+    [0, 1].forEach(() => add5());
+    start();
+  }, [add5, start, stop]);
+
+  const startWith25 = useCallback(() => {
+    stop();
+    [0, 1, 2, 3, 4].forEach(() => add5());
+    start();
+  }, [add5, start, stop]);
+
   useHotkeys("esc", () => void stop());
   useHotkeys("0", () => void stop());
   useHotkeys("space", () => void start());
@@ -47,6 +65,32 @@ function App() {
           onPointerUp={stopIntent}
         >
           <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
+          <div className="flex justify-center">
+            <button
+              type="button"
+              title="Start with 5 minutes"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              onClick={startWith5}
+            >
+              5 min
+            </button>
+            <button
+              type="button"
+              title="Start with 10 minutes"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              onClick={startWith10}
+            >
+              10 min
+            </button>
+            <button
+              type="button"
+              title="Start with 25 minutes"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              onClick={startWith25}
+            >
+              25 min
+            </button>
+          </div>
         </div>
         <div className="absolute bottom-0 right-0 text-2xl">
           <div className="flex w-full">
