@@ -1,6 +1,6 @@
 import { IconDice1, IconDice5, IconHelp } from "@tabler/icons";
 import { format } from "date-fns";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { CommandMenu } from "./CommandMenu";
 import { useTheme } from "./useTheme";
@@ -53,6 +53,11 @@ function App() {
   useHotkeys("-", () => void remove1());
   useHotkeys("_", () => void remove1());
   useHotkeys("h", () => void navigate("help"));
+  const time = format(accumulated, "mm:ss");
+
+  useEffect(() => {
+    document.title = time;
+  }, [time]);
 
   return (
     <>
@@ -64,7 +69,7 @@ function App() {
           onPointerDown={startIntent}
           onPointerUp={stopIntent}
         >
-          <div className="text-[24vw] font-bold">{format(accumulated, "mm:ss")}</div>
+          <div className="text-[24vw] font-bold">{time}</div>
           <div className="flex justify-center">
             <button
               type="button"
