@@ -1,10 +1,9 @@
-import { IconDice1, IconDice5, IconHelp } from "@tabler/icons";
 import { format } from "date-fns";
 import React, { useCallback, useEffect, useRef } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Outlet, useNavigate } from "react-router-dom";
 import { CommandMenu } from "./CommandMenu";
 import { useTheme } from "./useTheme";
-import { useHotkeys } from "react-hotkeys-hook";
 import { useTimer } from "./useTimer";
 
 function App() {
@@ -27,12 +26,6 @@ function App() {
   const startWith5 = useCallback(() => {
     stop();
     add5();
-    start();
-  }, [add5, start, stop]);
-
-  const startWith10 = useCallback(() => {
-    stop();
-    [0, 1].forEach(() => add5());
     start();
   }, [add5, start, stop]);
 
@@ -69,40 +62,32 @@ function App() {
           onPointerDown={startIntent}
           onPointerUp={stopIntent}
         >
-          <div className="text-[24vw] font-bold">{time}</div>
+          <div className="text-[24vw] dark:text-gray-600">{time}</div>
           <div className="flex justify-center">
             <button
               type="button"
               title="Start with 5 minutes"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
               onClick={startWith5}
             >
               5 min
             </button>
             <button
               type="button"
-              title="Start with 10 minutes"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
-              onClick={startWith10}
-            >
-              10 min
-            </button>
-            <button
-              type="button"
               title="Start with 25 minutes"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
               onClick={startWith25}
             >
               25 min
             </button>
           </div>
         </div>
-        <div className="absolute bottom-0 right-0 text-2xl">
+        {/* <div className="absolute bottom-0 right-0 text-2xl">
           <div className="flex w-full">
             <button
               type="button"
               title="Add 1"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
               onClick={add1}
             >
               <IconDice1 />
@@ -110,7 +95,7 @@ function App() {
             <button
               type="button"
               title="Add 5"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
               onClick={add5}
             >
               <IconDice5 />
@@ -118,13 +103,13 @@ function App() {
             <button
               type="button"
               title="Help"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-700 dark:hover:bg-white/5 dark:hover:text-gray-600"
+              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
               onClick={() => navigate("help")}
             >
               <IconHelp />
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
       <Outlet />
     </>
