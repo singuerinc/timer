@@ -55,19 +55,19 @@ function App() {
   return (
     <>
       <CommandMenu timer={timer} navigate={navigate} />
-      <div className="flex h-full w-full select-none flex-col items-center justify-center">
+      <div className="flex h-full w-full select-none flex-col items-start justify-end pb-6 pl-6">
         <div
-          className="flex cursor-pointer flex-col tabular-nums transition-all active:scale-95"
+          className="flex cursor-pointer flex-col items-start gap-y-2 tabular-nums transition-all active:scale-95"
           onClick={isRunning ? pause : start}
           onPointerDown={startIntent}
           onPointerUp={stopIntent}
         >
-          <div className="text-[24vw] dark:text-gray-600">{time}</div>
-          <div className="flex justify-center">
+          <div className="text-4xl dark:text-gray-600">{time}</div>
+          <div className="flex gap-x-2">
             <button
               type="button"
               title="Start with 5 minutes"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
+              className="-ml-1 rounded-md py-1 px-2 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
               onClick={startWith5}
             >
               5 min
@@ -75,7 +75,7 @@ function App() {
             <button
               type="button"
               title="Start with 25 minutes"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
+              className="-ml-1 rounded-md py-1 px-2 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
               onClick={startWith25}
             >
               25 min
