@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { CommandMenu } from "./CommandMenu";
 import { useTheme } from "./useTheme";
 import { useTimer } from "./useTimer";
+import { Todo } from "./Todo";
 
 function App() {
   useTheme();
@@ -55,7 +56,8 @@ function App() {
   return (
     <>
       <CommandMenu timer={timer} navigate={navigate} />
-      <div className="flex h-full w-full select-none flex-col items-start justify-end pb-6 pl-6">
+      <div className="flex h-full w-full select-none flex-col items-start justify-end gap-y-6 pb-6 pl-6">
+        <Todo />
         <div
           className="flex cursor-pointer flex-col items-start gap-y-2 tabular-nums transition-all active:scale-95"
           onClick={isRunning ? pause : start}
@@ -82,34 +84,6 @@ function App() {
             </button>
           </div>
         </div>
-        {/* <div className="absolute bottom-0 right-0 text-2xl">
-          <div className="flex w-full">
-            <button
-              type="button"
-              title="Add 1"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
-              onClick={add1}
-            >
-              <IconDice1 />
-            </button>
-            <button
-              type="button"
-              title="Add 5"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
-              onClick={add5}
-            >
-              <IconDice5 />
-            </button>
-            <button
-              type="button"
-              title="Help"
-              className="mr-4 mb-4 rounded-md p-4 font-light text-gray-400 transition-all hover:bg-black/10 hover:text-gray-600 active:scale-90 dark:text-gray-500 dark:hover:bg-white/10 dark:hover:text-gray-300"
-              onClick={() => navigate("help")}
-            >
-              <IconHelp />
-            </button>
-          </div>
-        </div> */}
       </div>
       <Outlet />
     </>
