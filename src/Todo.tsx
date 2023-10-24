@@ -14,7 +14,11 @@ const toTask = (task: Record<string, string | boolean | number>): ITask => ({
   task: { completed: false, text: "", ...task },
 });
 const loadTask = (id: string): ITask =>
-  toTask(JSON.parse(localStorage.getItem(id) ?? "{'task': {}}").task);
+  toTask(
+    JSON.parse(
+      localStorage.getItem(id) !== null ? String(localStorage.getItem(id)) : "{'task': '{}'}"
+    ).task
+  );
 
 export function Todo() {
   const [task1, task2, task3] = [loadTask("task-1"), loadTask("task-2"), loadTask("task-3")];
