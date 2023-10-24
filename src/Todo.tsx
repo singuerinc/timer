@@ -71,18 +71,28 @@ function CheckboxTask({
   return (
     <>
       {completed ? (
-        <IconCheck onClick={() => setCompleted(false)} className="text-gray-300" />
+        <IconCheck
+          tabIndex={1}
+          onClick={() => setCompleted(false)}
+          className="text-gray-900 outline-0 dark:text-gray-700"
+        />
       ) : text ? (
-        <IconSquare onClick={() => setCompleted(true)} className="text-gray-300" />
+        <IconSquare
+          tabIndex={1}
+          onClick={() => setCompleted(true)}
+          className="text-gray-900 outline-0 dark:text-gray-700"
+        />
       ) : (
-        <IconSquare className="text-gray-100" />
+        <IconSquare tabIndex={1} className="text-gray-100 outline-0 dark:text-gray-900" />
       )}
       <input
+        tabIndex={1}
         value={text}
+        placeholder="Task"
         type="text"
-        className={`w-full px-2 py-1 ${
+        className={`w-full bg-transparent px-2 py-1 placeholder:text-gray-200 dark:text-gray-600 dark:placeholder:text-gray-900 ${
           completed ? "line-through" : ""
-        } outline-0 focus:ring focus:ring-slate-200`}
+        } outline-0`}
         onChange={handleChange}
       />
     </>
