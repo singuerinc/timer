@@ -9,16 +9,15 @@ type ITask = {
   };
 };
 
-const toTask = (task: Record<string, string | boolean | number>): ITask => ({
-  type: "task",
-  task: { completed: false, text: "", ...task },
-});
-const loadTask = (id: string): ITask =>
-  toTask(
-    JSON.parse(
-      localStorage.getItem(id) !== null ? String(localStorage.getItem(id)) : "{'task': '{}'}"
-    ).task
-  );
+const loadTask = (id: string): ITask => {
+  try {
+    const task = localStorage.getItem(id);
+    if (task === null) throw new Error("Task not found");
+    return JSON.parse(task);
+  } catch {
+    return { type: "task", task: { completed: false, text: "" } };
+  }
+};
 
 export function Todo() {
   const [task1, task2, task3] = [loadTask("task-1"), loadTask("task-2"), loadTask("task-3")];
