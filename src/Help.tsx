@@ -1,12 +1,14 @@
 import { IconX } from "@tabler/icons";
 import React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
 
 export function Help() {
   const navigate = useNavigate();
+  const ref = useHotkeys("esc", () => void navigate("/"));
   return (
     <>
-      <div className="fixed right-0 top-4 z-10 text-2xl md:top-auto md:bottom-0">
+      <div ref={() => ref} className="fixed right-0 top-4 z-10 text-2xl md:top-auto md:bottom-0">
         <button
           type="button"
           title="Add 5"
@@ -35,21 +37,13 @@ export function Help() {
           <div className="grid grid-cols-2 gap-x-12 gap-y-4">
             <div>
               <kbd className="rounded-sm border bg-gray-100 px-1 py-0.5 dark:border-gray-800 dark:bg-gray-900">
-                Enter
-              </kbd>{" "}
-              /{" "}
-              <kbd className="rounded-sm border bg-gray-100 px-1 py-0.5 dark:border-gray-800 dark:bg-gray-900">
                 Space
               </kbd>
             </div>
-            <div>Start the timer</div>
+            <div>Start/Pause the timer</div>
             <div>
               <kbd className="rounded-sm border bg-gray-100 px-1 py-0.5 dark:border-gray-800 dark:bg-gray-900">
                 Esc
-              </kbd>{" "}
-              /{" "}
-              <kbd className="rounded-sm border bg-gray-100 px-1 py-0.5 dark:border-gray-800 dark:bg-gray-900">
-                0
               </kbd>
             </div>
             <div>Stop the timer</div>
